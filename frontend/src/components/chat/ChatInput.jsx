@@ -1,11 +1,15 @@
-import { useState, useRef, useEffect } from 'react'
+import { useRef, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import { Send, Sparkles } from 'lucide-react'
-import { Button } from '@/components/ui/button'
+import { ArrowUp } from 'lucide-react'
 import { cn } from '@/utils/cn'
 
-export function ChatInput({ onSend, disabled, hasDocuments }) {
-  const [value, setValue] = useState('')
+export function ChatInput({
+  value,
+  onChange,
+  onSend,
+  disabled,
+  hasDocuments,
+}) {
   const textareaRef = useRef(null)
 
   useEffect(() => {
@@ -16,10 +20,15 @@ export function ChatInput({ onSend, disabled, hasDocuments }) {
     }
   }, [value])
 
+  useEffect(() => {
+    if (value) {
+      textareaRef.current?.focus()
+    }
+  }, [value])
+
   const handleSubmit = () => {
     if (!value.trim() || disabled) return
     onSend(value)
-    setValue('')
   }
 
   const handleKeyDown = (e) => {
@@ -30,49 +39,50 @@ export function ChatInput({ onSend, disabled, hasDocuments }) {
   }
 
   return (
-    <div className="border-t border-zinc-800/80 bg-zinc-950/80 backdrop-blur-xl p-4">
-      <div className="mx-auto max-w-3xl">
+    <div className="shrink-0 border-t border-[#1e1e22] bg-[#09090b]/90 backdrop-blur-xl">
+      <div className="mx-auto max-w-3xl px-4 sm:px-6 py-4">
         {!hasDocuments && (
-          <p className="mb-2 text-center text-xs text-amber-500/80">
-            Upload a PDF first to start asking questions
+          <p className="mb-2.5 text-center text-[11px] text-[#5c5c66]">
+            Upload a PDF to start asking questions
           </p>
         )}
 
         <motion.div
           layout
           className={cn(
-            'relative flex items-end gap-2 rounded-2xl border bg-zinc-900/60 p-2 shadow-xl transition-colors',
-            'border-zinc-800 focus-within:border-violet-500/40 focus-within:shadow-violet-500/5'
+            'relative flex items-end gap-2 rounded-2xl border bg-[#0f0f11] p-2 transition-all duration-200',
+            'border-[#1e1e22] focus-within:border-[#2a2a30] focus-within:shadow-[0_0_0_1px_rgba(59,130,246,0.08)]'
           )}
         >
-          <div className="flex h-10 w-10 shrink-0 items-center justify-center">
-            <Sparkles className="h-4 w-4 text-violet-400/60" />
-          </div>
-
           <textarea
             ref={textareaRef}
             value={value}
-            onChange={(e) => setValue(e.target.value)}
+            onChange={(e) => onChange(e.target.value)}
             onKeyDown={handleKeyDown}
-            placeholder="Ask a question about your documents..."
+            placeholder="Ask anything about your documents..."
             disabled={disabled}
             rows={1}
-            className="flex-1 resize-none bg-transparent py-2.5 text-sm text-zinc-100 placeholder:text-zinc-500 focus:outline-none disabled:opacity-50 max-h-40"
+            className="flex-1 resize-none bg-transparent px-2 py-2.5 text-[15px] text-[#ececee] placeholder:text-[#3a3a42] focus:outline-none disabled:opacity-40 max-h-40 leading-relaxed"
           />
 
-          <Button
-            size="icon"
+          <button
+            type="button"
             disabled={disabled || !value.trim()}
             onClick={handleSubmit}
-            className="h-10 w-10 shrink-0 rounded-xl"
             aria-label="Send message"
+            className={cn(
+              'flex h-8 w-8 shrink-0 items-center justify-center rounded-xl transition-all duration-150 mb-0.5',
+              value.trim() && !disabled
+                ? 'bg-blue-600 text-white hover:bg-blue-500 active:scale-95'
+                : 'bg-[#1a1a1e] text-[#3a3a42] cursor-not-allowed'
+            )}
           >
-            <Send className="h-4 w-4" />
-          </Button>
+            <ArrowUp className="h-4 w-4" strokeWidth={2} />
+          </button>
         </motion.div>
 
-        <p className="mt-2 text-center text-[11px] text-zinc-600">
-          Press Enter to send · Shift+Enter for new line
+        <p className="mt-2 text-center text-[10px] text-[#3a3a42]">
+          Enter to send · Shift+Enter for new line
         </p>
       </div>
     </div>

@@ -1,12 +1,12 @@
 import { useCallback, useRef, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Upload, FileText, Loader2 } from 'lucide-react'
-import { Button } from '@/components/ui/button'
+import { Upload, CheckCircle2 } from 'lucide-react'
 import { Progress } from '@/components/ui/progress'
 import { cn } from '@/utils/cn'
 
 export function FileUpload({ onUpload, isUploading, uploadProgress }) {
   const [isDragging, setIsDragging] = useState(false)
+  const [showSuccess, setShowSuccess] = useState(false)
   const inputRef = useRef(null)
 
   const handleFile = useCallback(
@@ -14,6 +14,8 @@ export function FileUpload({ onUpload, isUploading, uploadProgress }) {
       if (!file || isUploading) return
       try {
         await onUpload(file)
+        setShowSuccess(true)
+        setTimeout(() => setShowSuccess(false), 2500)
       } catch {
         // Error handled by parent
       }
@@ -31,29 +33,20 @@ export function FileUpload({ onUpload, isUploading, uploadProgress }) {
     [handleFile]
   )
 
-  const onDragOver = useCallback((e) => {
-    e.preventDefault()
-    setIsDragging(true)
-  }, [])
-
-  const onDragLeave = useCallback((e) => {
-    e.preventDefault()
-    setIsDragging(false)
-  }, [])
-
   return (
-    <div className="space-y-3">
+    <div className="space-y-2">
       <div
         onDrop={onDrop}
-        onDragOver={onDragOver}
-        onDragLeave={onDragLeave}
+        onDragOver={(e) => { e.preventDefault(); setIsDragging(true) }}
+        onDragLeave={(e) => { e.preventDefault(); setIsDragging(false) }}
         onClick={() => !isUploading && inputRef.current?.click()}
         className={cn(
-          'relative flex flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed p-4 transition-all duration-200 cursor-pointer',
+          'group relative flex flex-col items-center justify-center gap-2.5 rounded-xl border border-dashed px-4 py-5 transition-all duration-200 cursor-pointer overflow-hidden',
           isDragging
-            ? 'border-violet-500 bg-violet-500/10'
-            : 'border-zinc-700/80 bg-zinc-900/40 hover:border-zinc-600 hover:bg-zinc-800/40',
-          isUploading && 'pointer-events-none opacity-70'
+            ? 'border-blue-500/50 bg-blue-500/[0.04]'
+            : 'border-[#2a2a30] bg-[#0f0f11] hover:border-[#3a3a42] hover:bg-[#111113]',
+          isUploading && 'pointer-events-none',
+          showSuccess && 'border-emerald-500/30 bg-emerald-500/[0.03]'
         )}
       >
         <input
@@ -68,51 +61,57 @@ export function FileUpload({ onUpload, isUploading, uploadProgress }) {
           }}
         />
 
-        {isUploading ? (
-          <Loader2 className="h-6 w-6 text-violet-400 animate-spin" />
-        ) : (
-          <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-violet-500/15">
-            <Upload className="h-5 w-5 text-violet-400" />
-          </div>
-        )}
-
-        <div className="text-center">
-          <p className="text-xs font-medium text-zinc-300">
-            {isUploading ? 'Processing PDF...' : 'Drop PDF here'}
-          </p>
-          <p className="text-[11px] text-zinc-500 mt-0.5">
-            {isUploading ? 'Embedding & indexing' : 'or click to browse'}
-          </p>
-        </div>
+        <AnimatePresence mode="wait">
+          {showSuccess ? (
+            <motion.div
+              key="success"
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.8, opacity: 0 }}
+              className="flex flex-col items-center gap-2"
+            >
+              <CheckCircle2 className="h-6 w-6 text-emerald-400" />
+              <p className="text-xs font-medium text-emerald-400">Indexed successfully</p>
+            </motion.div>
+          ) : isUploading ? (
+            <motion.div
+              key="uploading"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="flex flex-col items-center gap-2 w-full"
+            >
+              <div className="h-8 w-8 rounded-lg bg-blue-500/10 flex items-center justify-center">
+                <Upload className="h-4 w-4 text-blue-400 animate-pulse" />
+              </div>
+              <p className="text-xs font-medium text-[#c8c8d0]">Processing document</p>
+              <div className="w-full space-y-1.5 px-2">
+                <div className="flex justify-between text-[10px] text-[#5c5c66]">
+                  <span>Uploading & indexing</span>
+                  <span>{uploadProgress}%</span>
+                </div>
+                <Progress value={uploadProgress} />
+              </div>
+            </motion.div>
+          ) : (
+            <motion.div
+              key="idle"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="flex flex-col items-center gap-2"
+            >
+              <div className="h-8 w-8 rounded-lg bg-[#1a1a1e] flex items-center justify-center group-hover:bg-blue-500/10 transition-colors">
+                <Upload className="h-4 w-4 text-[#5c5c66] group-hover:text-blue-400 transition-colors" />
+              </div>
+              <div className="text-center">
+                <p className="text-xs font-medium text-[#c8c8d0]">Drop PDF here</p>
+                <p className="text-[10px] text-[#5c5c66] mt-0.5">or click to browse</p>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
-
-      <AnimatePresence>
-        {isUploading && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            className="space-y-1.5 overflow-hidden"
-          >
-            <div className="flex justify-between text-[11px] text-zinc-500">
-              <span>Uploading</span>
-              <span>{uploadProgress}%</span>
-            </div>
-            <Progress value={uploadProgress} />
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      <Button
-        variant="secondary"
-        size="sm"
-        className="w-full"
-        disabled={isUploading}
-        onClick={() => inputRef.current?.click()}
-      >
-        <FileText className="h-3.5 w-3.5" />
-        Upload PDF
-      </Button>
     </div>
   )
 }

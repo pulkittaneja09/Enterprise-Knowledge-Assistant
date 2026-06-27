@@ -1,6 +1,5 @@
 import { motion } from 'framer-motion'
-import ReactMarkdown from 'react-markdown'
-import { Bot, User } from 'lucide-react'
+import { MarkdownContent } from '@/components/chat/MarkdownContent'
 import { SourceCards } from '@/components/chat/SourceCard'
 import { cn } from '@/utils/cn'
 
@@ -8,51 +7,28 @@ export function MessageBubble({ message }) {
   const isUser = message.role === 'user'
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 12 }}
+    <motion.article
+      initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3, ease: 'easeOut' }}
-      className={cn('flex gap-3', isUser ? 'flex-row-reverse' : 'flex-row')}
+      transition={{ duration: 0.35, ease: [0.25, 0.46, 0.45, 0.94] }}
+      className={cn('group', isUser ? 'flex justify-end' : 'flex justify-start')}
     >
-      <div
-        className={cn(
-          'flex h-8 w-8 shrink-0 items-center justify-center rounded-lg',
-          isUser
-            ? 'bg-zinc-800 border border-zinc-700'
-            : 'bg-gradient-to-br from-violet-600 to-indigo-600 shadow-lg shadow-violet-500/20'
-        )}
-      >
-        {isUser ? (
-          <User className="h-4 w-4 text-zinc-300" />
-        ) : (
-          <Bot className="h-4 w-4 text-white" />
-        )}
-      </div>
-
-      <div className={cn('flex flex-col gap-1 max-w-[85%] sm:max-w-[75%]', isUser && 'items-end')}>
-        <div
-          className={cn(
-            'rounded-2xl px-4 py-3',
-            isUser
-              ? 'bg-zinc-800 border border-zinc-700/80 text-zinc-100 rounded-tr-md'
-              : 'bg-zinc-900/80 border border-zinc-800/80 backdrop-blur-sm text-zinc-200 rounded-tl-md'
-          )}
-        >
-          {isUser ? (
-            <p className="text-sm leading-relaxed whitespace-pre-wrap">{message.content}</p>
-          ) : (
-            <div className="prose-chat">
-              <ReactMarkdown>{message.content}</ReactMarkdown>
-            </div>
-          )}
-        </div>
-
-        {!isUser && message.sources && (
-          <div className="w-full">
-            <SourceCards sources={message.sources} />
+      {isUser ? (
+        <div className="max-w-[min(85%,36rem)]">
+          <div className="rounded-2xl rounded-br-md bg-[#141416] border border-[#1e1e22] px-4 py-3">
+            <p className="text-[15px] leading-relaxed text-[#ececee] whitespace-pre-wrap">
+              {message.content}
+            </p>
           </div>
-        )}
-      </div>
-    </motion.div>
+        </div>
+      ) : (
+        <div className="w-full max-w-[min(100%,42rem)]">
+          <div className="rounded-2xl rounded-bl-md bg-transparent px-1 py-1">
+            <MarkdownContent>{message.content}</MarkdownContent>
+            {message.sources && <SourceCards sources={message.sources} />}
+          </div>
+        </div>
+      )}
+    </motion.article>
   )
 }

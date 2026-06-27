@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion'
-import { Plus, Sparkles, PanelLeftClose, PanelLeft } from 'lucide-react'
+import { Plus, Settings, PanelLeftClose } from 'lucide-react'
+import { Logo } from '@/components/brand/Logo'
 import { Button } from '@/components/ui/button'
 import { FileUpload } from '@/components/upload/FileUpload'
 import { DocumentList } from '@/components/upload/DocumentList'
@@ -12,6 +13,7 @@ export function Sidebar({
   onUpload,
   onRemoveDocument,
   onNewChat,
+  onOpenSettings,
   isOpen,
   onToggle,
 }) {
@@ -22,87 +24,76 @@ export function Sidebar({
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 z-40 bg-black/60 backdrop-blur-sm lg:hidden"
+          className="fixed inset-0 z-40 bg-black/60 backdrop-blur-[2px] lg:hidden"
           onClick={onToggle}
         />
       )}
 
       <aside
         className={cn(
-          'fixed inset-y-0 left-0 z-50 flex w-72 flex-col border-r border-zinc-800/80 bg-zinc-950/95 backdrop-blur-xl transition-transform duration-300 ease-out',
+          'fixed inset-y-0 left-0 z-50 flex w-[272px] flex-col border-r border-[#1e1e22] bg-[#0c0c0e] transition-transform duration-300 ease-[cubic-bezier(0.32,0.72,0,1)]',
           'lg:static lg:translate-x-0',
           isOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
         )}
       >
-        <div className="flex items-center justify-between border-b border-zinc-800/80 p-4">
-          <div className="flex items-center gap-3">
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-violet-600 to-indigo-600 shadow-lg shadow-violet-500/20">
-              <Sparkles className="h-4 w-4 text-white" />
-            </div>
-            <div>
-              <h2 className="text-sm font-semibold text-zinc-100">KnowledgeHub AI</h2>
-              <p className="text-[10px] text-zinc-500 leading-tight max-w-[160px]">
-                RAG-powered document chat
-              </p>
-            </div>
-          </div>
-
+        {/* Brand */}
+        <div className="flex items-center justify-between px-4 pt-5 pb-4">
+          <Logo showTagline size="md" />
           <button
             onClick={onToggle}
-            className="lg:hidden p-1.5 rounded-lg text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800"
+            className="lg:hidden rounded-md p-1.5 text-[#5c5c66] hover:text-[#ececee] hover:bg-white/[0.04] transition-colors"
             aria-label="Close sidebar"
           >
             <PanelLeftClose className="h-4 w-4" />
           </button>
         </div>
 
-        <div className="flex-1 overflow-y-auto p-4 space-y-5">
+        {/* Actions */}
+        <div className="px-3 pb-3 space-y-1">
           <Button
-            variant="outline"
-            className="w-full justify-start gap-2"
+            variant="secondary"
+            className="w-full justify-start h-9 font-normal"
             onClick={onNewChat}
           >
-            <Plus className="h-4 w-4" />
+            <Plus className="h-3.5 w-3.5 text-[#5c5c66]" />
             New Chat
           </Button>
+        </div>
 
-          <div>
-            <h3 className="text-[11px] font-medium text-zinc-500 uppercase tracking-wider mb-3">
-              Upload PDF
+        <div className="mx-3 h-px bg-[#1e1e22]" />
+
+        {/* Scrollable content */}
+        <div className="flex-1 overflow-y-auto px-3 py-4 space-y-5">
+          <section>
+            <h3 className="mb-2.5 px-2 text-[11px] font-medium uppercase tracking-wider text-[#5c5c66]">
+              Documents
             </h3>
             <FileUpload
               onUpload={onUpload}
               isUploading={isUploading}
               uploadProgress={uploadProgress}
             />
-          </div>
+          </section>
 
-          <div>
-            <h3 className="text-[11px] font-medium text-zinc-500 uppercase tracking-wider mb-3">
-              Documents ({documents.length})
+          <section>
+            <h3 className="mb-2.5 px-2 text-[11px] font-medium uppercase tracking-wider text-[#5c5c66]">
+              Recent Documents
             </h3>
             <DocumentList documents={documents} onRemove={onRemoveDocument} />
-          </div>
+          </section>
         </div>
 
-        <div className="border-t border-zinc-800/80 p-4">
-          <p className="text-[10px] text-zinc-600 text-center leading-relaxed">
-            Chat with your documents using AI-powered Retrieval-Augmented Generation.
-          </p>
+        {/* Footer */}
+        <div className="border-t border-[#1e1e22] p-3">
+          <button
+            onClick={onOpenSettings}
+            className="flex w-full items-center gap-2.5 rounded-lg px-2.5 py-2 text-sm text-[#8b8b96] hover:text-[#ececee] hover:bg-white/[0.04] transition-colors"
+          >
+            <Settings className="h-4 w-4" />
+            Settings
+          </button>
         </div>
       </aside>
     </>
-  )
-}
-
-export function SidebarToggle({ onClick }) {
-  return (
-    <button
-      onClick={onClick}
-      className="lg:hidden p-2 rounded-lg text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/80 transition-colors"
-      aria-label="Open sidebar"
-    >
-      <PanelLeft className="h-5 w-5" />
-    </button>
   )
 }
