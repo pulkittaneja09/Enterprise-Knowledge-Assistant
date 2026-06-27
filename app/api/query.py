@@ -1,6 +1,7 @@
 from fastapi import APIRouter
 
 from app.services.retriever import retrieve_documents
+from app.services.llm import generate_answer
 
 router = APIRouter()
 
@@ -10,15 +11,13 @@ def query_documents(question: str):
 
     results = retrieve_documents(question)
 
-    response = []
-
-    for doc in results:
-        response.append({
-            "content": doc.page_content,
-            "metadata": doc.metadata
-        })
+    answer = generate_answer(question, results)
 
     return {
         "question": question,
-        "results": response
+        "answer": answer,
+        "sources": [
+            doc.metadata
+            for doc in results
+        ]
     }
