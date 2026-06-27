@@ -17,7 +17,10 @@ def query_documents(question: str):
         "question": question,
         "answer": answer,
         "sources": [
-            doc.metadata
-            for doc in results
-        ]
-    }
+            {
+            "file": doc.metadata.get("source"),
+            "page": doc.metadata.get("page") + 1
+        }
+        for doc in results
+    ]
+}
