@@ -2,6 +2,7 @@ import os
 from app.services.text_splitter import split_documents
 from fastapi import APIRouter, UploadFile, File, HTTPException
 from app.services.pdf_loader import load_pdf
+from app.services.vector_store import create_vector_store
 router = APIRouter()
 
 UPLOAD_DIR = "uploads"
@@ -21,7 +22,7 @@ async def upload_pdf(file: UploadFile = File(...)):
 
     documents = load_pdf(file_path)
     chunks = split_documents(documents)
-
+    
     print(f"Total Chunks : {len(chunks)}")
 
     print("\nFirst Chunk:\n")
@@ -31,7 +32,9 @@ async def upload_pdf(file: UploadFile = File(...)):
     print(chunks[0].metadata)
     print(f"Pages Loaded: {len(documents)}")
     print(documents[0].page_content[:500])
+    vector_store = create_vector_store(chunks)
 
+    print("Vector Store Created Successfully!")
     return {
     "success": True,
     "filename": file.filename,
