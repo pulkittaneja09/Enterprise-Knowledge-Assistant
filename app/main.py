@@ -23,5 +23,11 @@ app.include_router(upload_router)
 app.include_router(query_router)
 
 @app.get("/")
+
 def home():
-    return {"message": "Enterprise Knowledge Assistant API is Running"}
+    return {
+        "product": "KnowledgeHub AI",
+        "description": "Enterprise Document Intelligence powered by Retrieval-Augmented Generation (RAG)",
+        "version": "1.0.0",
+        "status": "running"
+    }
