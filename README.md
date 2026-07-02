@@ -56,3 +56,71 @@ KnowledgeHub AI enables organizations to upload enterprise PDF documents and int
 ```
 
 ---
+# 🧠 RAG Pipeline
+
+```
+PDF Upload
+    │
+    ▼
+Text Extraction
+    │
+    ▼
+Document Chunking
+    │
+    ▼
+Embedding Generation
+    │
+    ▼
+ChromaDB Vector Store
+    │
+    ▼
+User Question
+    │
+    ▼
+Semantic Similarity Search
+    │
+    ▼
+Relevant Context Retrieval
+    │
+    ▼
+Google Gemini
+    │
+    ▼
+Context-Aware Response
+```
+
+---
+
+# 🛠️ Tech Stack
+
+## 🤖 Generative AI
+
+- Google Gemini 2.5 Flash
+- LangChain
+- Retrieval-Augmented Generation (RAG)
+- Google Embeddings
+- ChromaDB
+
+## ⚙️ Backend
+
+- Python
+- FastAPI
+- Uvicorn
+- REST APIs
+
+## 🎨 Frontend
+
+- React
+- Vite
+- Axios
+
+## 📦 Vector Database
+
+- ChromaDB
+
+## ☁️ Deployment
+
+- Render
+- Vercel
+
+---
