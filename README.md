@@ -148,3 +148,57 @@ Enterprise-Knowledge-Assistant
 ```
 
 ---
+
+# 🚀 Getting Started
+
+## Clone Repository
+
+```bash
+git clone https://github.com/pulkittaneja09/Enterprise-Knowledge-Assistant.git
+
+cd Enterprise-Knowledge-Assistant
+```
+
+## Install Backend
+
+```bash
+pip install -r requirements.txt
+```
+
+## Configure Environment Variables
+
+Create a `.env` file in the project root.
+
+```env
+GOOGLE_API_KEY=YOUR_GOOGLE_API_KEY
+```
+
+## Start Backend
+
+```bash
+uvicorn app.main:app --reload
+```
+
+## Start Frontend
+
+```bash
+cd frontend
+
+npm install
+
+npm run dev
+```
+
+---
+
+# 🌍 Live Demo
+
+### Frontend
+
+👉 https://knowledgehub-ai-pulkit.vercel.app/
+
+### Backend API
+
+👉 https://enterprise-knowledge-assistant-tyj7.onrender.com/
+
+---
