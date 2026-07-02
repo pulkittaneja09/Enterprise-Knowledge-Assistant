@@ -124,3 +124,27 @@ Context-Aware Response
 - Vercel
 
 ---
+# 📂 Project Structure
+
+```
+Enterprise-Knowledge-Assistant
+│
+├── app/
+│   ├── api/
+│   ├── services/
+│   ├── models/
+│   ├── utils/
+│   └── main.py
+│
+├── frontend/
+│   ├── src/
+│   ├── public/
+│   └── package.json
+│
+├── chroma_db/
+├── uploads/
+├── requirements.txt
+└── README.md
+```
+
+---
