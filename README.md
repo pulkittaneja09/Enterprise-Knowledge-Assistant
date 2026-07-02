@@ -202,3 +202,25 @@ npm run dev
 👉 https://enterprise-knowledge-assistant-tyj7.onrender.com/
 
 ---
+# 🎯 Future Improvements
+
+- Multi-document conversations
+- Chat history
+- OCR support for scanned PDFs
+- Streaming AI responses
+- Hybrid keyword + semantic search
+- Reranking pipeline
+- Authentication & user management
+- Cloud-hosted vector database
+
+---
+
+# 👨‍💻 Author
+
+**Pulkit Taneja**
+
+- GitHub: https://github.com/pulkittaneja09
+- LinkedIn: https://linkedin.com/in/pulkittaneja09
+- Portfolio: https://portfolio-website-pi-blush-92.vercel.app/
+
+---
