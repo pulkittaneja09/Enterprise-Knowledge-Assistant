@@ -1,38 +1,58 @@
 # 🚀 KnowledgeHub AI
 
-> Enterprise AI Knowledge Assistant powered by Retrieval-Augmented Generation (RAG), Google Gemini, LangChain, and ChromaDB.
+> **AI-powered Enterprise Document Intelligence Platform built using Retrieval-Augmented Generation (RAG), Google Gemini, LangChain, and ChromaDB.**
 
-KnowledgeHub AI is an AI-powered enterprise document intelligence platform that enables users to interact with PDF documents using natural language. The application leverages Retrieval-Augmented Generation (RAG) to retrieve relevant information from uploaded documents before generating accurate, context-aware responses using Google Gemini.
+KnowledgeHub AI enables organizations to upload enterprise PDF documents and interact with them using natural language. By combining semantic retrieval with Google's Gemini LLM, the system generates accurate, grounded responses with document citations, significantly reducing hallucinations compared to traditional LLM-based chatbots.
 
-## ✨ Features
+---
 
-- 📄 Upload enterprise PDF documents
+# ✨ Key Features
+
 - 🤖 AI-powered document question answering
+- 📄 Upload and index enterprise PDF documents
 - 🔍 Semantic search using vector embeddings
-- 📚 Retrieval-Augmented Generation (RAG)
-- ⚡ Google Gemini integration
-- 📦 ChromaDB vector database
+- 🧠 Retrieval-Augmented Generation (RAG)
+- 📚 Context-aware responses with source citations
+- ⚡ Google Gemini 2.5 Flash integration
+- 📦 ChromaDB vector database for similarity search
+- 🔗 End-to-end document ingestion pipeline
+- 🚀 FastAPI REST API backend
+- 🎨 Modern React + Vite frontend
+- ☁️ Production deployment using Render & Vercel
 
-## 🛠 Tech Stack
+---
 
-### Generative AI
-- Google Gemini
-- LangChain
-- ChromaDB
-- Google Embeddings
+# 🏗️ System Architecture
 
-### Backend
-- Python
-- FastAPI
+```
+                User
+                  │
+                  ▼
+        React + Vite Frontend
+                  │
+                  ▼
+            FastAPI Backend
+                  │
+        ┌─────────┴─────────┐
+        │                   │
+        ▼                   ▼
+   PDF Processing      User Query
+        │                   │
+        ▼                   ▼
+ Document Chunking   Query Embedding
+        │                   │
+        ▼                   ▼
+ Google Embeddings   ChromaDB Search
+        │                   │
+        └─────────┬─────────┘
+                  ▼
+         Relevant Context
+                  │
+                  ▼
+      Google Gemini 2.5 Flash
+                  │
+                  ▼
+      Grounded AI Response
+```
 
-### Frontend
-- React
-- Vite
-
-## 🌐 Live Demo
-
-**Frontend:**  
-https://knowledgehub-ai-pulkit.vercel.app/
-
-**Backend:**  
-https://enterprise-knowledge-assistant-tyj7.onrender.com/
+---
