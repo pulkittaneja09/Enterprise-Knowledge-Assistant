@@ -214,13 +214,8 @@ npm run dev
 - Cloud-hosted vector database
 
 ---
+## 📬 Connect with Me
 
-# 👨‍💻 Author
-
-**Pulkit Taneja**
-
-- GitHub: https://github.com/pulkittaneja09
-- LinkedIn: https://linkedin.com/in/pulkittaneja09
-- Portfolio: https://portfolio-website-pi-blush-92.vercel.app/
-
----
+[![Portfolio](https://img.shields.io/badge/Portfolio-Visit-blue?style=for-the-badge)](https://portfolio-website-pi-blush-92.vercel.app/)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Pulkit%20Taneja-0077B5?style=for-the-badge&logo=linkedin)](https://www.linkedin.com/in/pulkit-taneja-627437366/)
+[![GitHub](https://img.shields.io/badge/GitHub-pulkittaneja09-181717?style=for-the-badge&logo=github)](https://github.com/pulkittaneja09)
